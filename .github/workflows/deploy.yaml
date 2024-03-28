@@ -1,0 +1,26 @@
+name: Deploy ComplexApps
+on:
+  push:
+    branches:
+      - master # check your repo, your default branch might be master!
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker build -t temmix/react-client  ./client
+      - run: docker run -e CI=true temmix/react-client npm test
+
+      - name: Build images
+        run: docker build -t temmix/complex-docker-client  ./client
+        run: docker build -t temmix/complex-docker-nginx  ./nginx
+        run: docker build -t temmix/complex-docker-server  ./server
+        run: docker build -t temmix/complex-docker-worker  ./worker
+
+      - name: Push images to docker Hub
+        run: docker push temmix/complex-docker-client  
+        run: docker push temmix/complex-docker-nginx 
+        run: docker push temmix/complex-docker-server  
+        run: docker push temmix/complex-docker-worker  
