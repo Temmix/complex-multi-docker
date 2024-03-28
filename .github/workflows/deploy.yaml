@@ -25,8 +25,14 @@ jobs:
       - name: Build worker image
         run: docker build -t temmix/complex-docker-worker  ./worker
 
-      - name: Push images to docker Hub
+      - name: Push temmix/complex-docker-client images to docker Hub
         run: docker push temmix/complex-docker-client
-          docker push temmix/complex-docker-nginx
-          docker push temmix/complex-docker-server
-          docker push temmix/complex-docker-worker
+
+      - name: Push temmix/complex-docker-nginx images to docker Hub
+        run: docker push temmix/complex-docker-nginx
+
+      - name: Push temmix/complex-docker-server images to docker Hub
+        run: docker push temmix/complex-docker-server
+
+      - name: Push temmix/complex-docker-worker images to docker Hub
+        run: docker push temmix/complex-docker-worker
