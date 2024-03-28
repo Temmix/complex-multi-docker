@@ -13,11 +13,17 @@ jobs:
       - run: docker build -t temmix/complex-react-client -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true temmix/complex-react-client npm test
 
-      - name: Build images
-      - run: docker build -t temmix/complex-docker-client  ./client
-      - run: docker build -t temmix/complex-docker-nginx  ./nginx
-      - run: docker build -t temmix/complex-docker-server  ./server
-      - run: docker build -t temmix/complex-docker-worker  ./worker
+      - name: Build client image
+        run: docker build -t temmix/complex-docker-client  ./client
+
+      - name: Build nginx image
+        run: docker build -t temmix/complex-docker-nginx  ./nginx
+
+      - name: Build server image
+        run: docker build -t temmix/complex-docker-server  ./server
+
+      - name: Build worker image
+        run: docker build -t temmix/complex-docker-worker  ./worker
 
       - name: Push images to docker Hub
         run: docker push temmix/complex-docker-client
